@@ -95,7 +95,7 @@ impl Browser {
 
         let handler_config = HandlerConfig {
             ignore_https_errors: config.ignore_https_errors,
-            viewport: Some(config.viewport.clone()),
+            viewport: config.viewport.clone(),
             context_ids: Vec::new(),
             request_timeout: config.request_timeout,
             request_intercept: config.request_intercept,
@@ -314,7 +314,7 @@ pub struct BrowserConfig {
 
     /// Ignore https errors, default is true
     ignore_https_errors: bool,
-    viewport: Viewport,
+    viewport: Option<Viewport>,
     /// The duration after a request with no response should time out
     request_timeout: Duration,
 
@@ -343,7 +343,7 @@ pub struct BrowserConfigBuilder {
     user_data_dir: Option<PathBuf>,
     incognito: bool,
     ignore_https_errors: bool,
-    viewport: Viewport,
+    viewport: Option<Viewport>,
     request_timeout: Duration,
     args: Vec<String>,
     disable_default_args: bool,
@@ -374,7 +374,7 @@ impl Default for BrowserConfigBuilder {
             user_data_dir: None,
             incognito: false,
             ignore_https_errors: true,
-            viewport: Default::default(),
+            viewport: Some(Viewport::default()),
             request_timeout: Duration::from_millis(REQUEST_TIMEOUT),
             args: Vec::new(),
             disable_default_args: false,
@@ -420,7 +420,7 @@ impl BrowserConfigBuilder {
         self
     }
 
-    pub fn viewport(mut self, viewport: Viewport) -> Self {
+    pub fn viewport(mut self, viewport: Option<Viewport>) -> Self {
         self.viewport = viewport;
         self
     }
